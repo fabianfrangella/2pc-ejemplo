@@ -1,7 +1,8 @@
 package ar.edu.unq.spring.distributed.item.service;
 
+
+import ar.edu.unq.spring.distributed.item.persistencia.ItemJPADTO;
 import ar.edu.unq.spring.distributed.item.repository.ItemRepository;
-import ar.edu.unq.unidad3.modelo.Item;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,20 @@ import org.springframework.stereotype.Service;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final CoordinatorService coordinatorService;
 
-    public Item findById(Long itemId) {
+    public ItemJPADTO findById(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
+    }
+
+    public ItemJPADTO cambiarOwner(Long itemId, Long ownerId) {
+        var item = findById(itemId);
+        item.setOwnerId(ownerId);
+        itemRepository.save(item);
+        return item;
+    }
+
+    public ItemJPADTO crear(ItemJPADTO item) {
+        return itemRepository.save(item);
     }
 }

@@ -1,4 +1,4 @@
-package ar.edu.unq.unidad3.modelo;
+package ar.edu.unq.unidad3.dto;
 
 import lombok.*;
 
@@ -6,21 +6,18 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@ToString
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public final class Item implements Serializable {
-
+@ToString
+public final class ItemDTO implements Serializable {
 
     private Long id;
 
     private String nombre;
     private Integer peso;
 
-    private Personaje owner;
+    private Long ownerId;
 
-    public Item(@NonNull String nombre,  @NonNull Integer peso) {
+    public ItemDTO(@NonNull String nombre, @NonNull Integer peso) {
         this.nombre = nombre;
         this.peso = peso;
     }

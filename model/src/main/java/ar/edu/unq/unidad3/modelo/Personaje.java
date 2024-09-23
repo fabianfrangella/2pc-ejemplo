@@ -1,7 +1,6 @@
 package ar.edu.unq.unidad3.modelo;
 
 import ar.edu.unq.unidad3.modelo.exception.MuchoPesoException;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,21 +10,18 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
-@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Personaje implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 500)
     private String nombre;
 
     private Integer vida;
     private Integer pesoMaximo;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Item> inventario = new HashSet<>();
 
     public Personaje(@NonNull String nombre, @NonNull Integer vida,  @NonNull Integer pesoMaximo) {
