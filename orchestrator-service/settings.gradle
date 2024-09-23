@@ -1,0 +1,3 @@
+rootProject.name = 'orchestrator'
+include(':model')
+project(':model').projectDir = new File(settingsDir, '../model')

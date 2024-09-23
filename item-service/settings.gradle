@@ -1,0 +1,3 @@
+rootProject.name = 'item'
+include(':model')
+project(':model').projectDir = new File(settingsDir, '../model')
