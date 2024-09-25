@@ -28,11 +28,11 @@ public class TransactionCoordinatorService {
 
     public Long onComprarEvent(Long compradorId, Long publicacionId) {
         var publicacion = storeService.findById(publicacionId).block();
-        if (compradorId.equals(publicacion.getVendedorId())){
+        if (compradorId.equals(publicacion.getVendedorId())) {
             logger.info("Compra de la publicacion {} fallo porque el vendedor es el mismo que el comprador", publicacionId);
             throw new RuntimeException("El comprador no puede ser el mismo que el vendedor");
         }
-        storeService.pausarPublicacion(publicacionId, compradorId).blockOptional();
+        storeService.pausarPublicacion(publicacionId, compradorId).subscribe();
 
         return publicacionId;
     }
@@ -57,16 +57,24 @@ public class TransactionCoordinatorService {
     }
 
     public Publicacion onPublicarEvent(Long vendedorId, Long itemId, BigDecimal precio) throws JsonProcessingException {
-        var item = itemService.findById(itemId).block();
+        var item = itemService.findById(itemId).doOnSuccess((itemDTO) -> {
+            if (!itemDTO.getOwnerId().equals(vendedorId)) {
+                throw new RuntimeException("El Item debe pertenecer al vendedor");
+            }
+        }).block();
+
         var vendedor = personajeService.findPersonaje(vendedorId).block();
+
 
         var publicacionBody = StoreService.PublicacionBody.builder()
                 .personajeId(vendedorId)
                 .itemId(itemId)
                 .precio(precio)
                 .build();
+
         var publicacion = storeService.publicar(publicacionBody).block();
         var personajeModel = vendedor.toModel();
+
         var itemModel = item.toModel(personajeModel);
 
         return publicacion.toModel(personajeModel, itemModel);
