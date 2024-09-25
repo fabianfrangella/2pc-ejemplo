@@ -27,6 +27,11 @@ public class TransactionCoordinatorService {
     private static final Logger logger = LoggerFactory.getLogger(TransactionCoordinatorService.class);
 
     public Long onComprarEvent(Long compradorId, Long publicacionId) {
+        var publicacion = storeService.findById(publicacionId).block();
+        if (compradorId.equals(publicacion.getVendedorId())){
+            logger.info("Compra de la publicacion {} fallo porque el vendedor es el mismo que el comprador", publicacionId);
+            throw new RuntimeException("El comprador no puede ser el mismo que el vendedor");
+        }
         storeService.pausarPublicacion(publicacionId, compradorId).blockOptional();
 
         return publicacionId;
