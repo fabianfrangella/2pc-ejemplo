@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
+// TODO: CoordinatorClient o Controller
 public class CoordinatorService {
 
     private final WebClient coordinatorWebclient;

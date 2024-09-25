@@ -40,17 +40,14 @@ public class TransactionCoordinatorService {
     public Result onPublicacionPausada(Long compradorId, Long publicacionId) {
         try {
             var publicacion = storeService.findById(publicacionId).block();
-            var item = itemService.cambiarOwner(publicacion.getItemId(), compradorId).block();
+            itemService.cambiarOwner(publicacion.getItemId(), compradorId).block();
 
             if (publicacion.getEstado() == PublicacionDTO.Estado.INACTIVA) {
                 logger.info("Compra de la publicacion {} fallo porque la publicacion esta inactiva", publicacionId);
                 return Result.FAIL;
             }
 
-            if (item.getOwnerId().equals(compradorId)) {
-                return Result.SUCCESS;
-            }
-            return Result.FAIL;
+            return Result.SUCCESS;
         } catch(Exception e) {
             return Result.FAIL;
         }

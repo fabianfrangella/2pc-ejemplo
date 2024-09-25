@@ -6,7 +6,7 @@
 public void comprar(Long compradorId, Long publicacionId) {
     var tx = beginTransaction();
     try {
-        var publicacion = publicacionService.findByid(publicacionId);
+        var publicacion = publicacionService.findById(publicacionId);
         var comprador = personajeService.findById(compradorId);
         var vendedor = personajeService.findById(publicacion.getVendedor().getId());
         

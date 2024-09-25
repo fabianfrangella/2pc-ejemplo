@@ -27,17 +27,18 @@ public class TransactionCoordinatorController {
         return transactionalService.onPublicarEvent(vendedorId, itemId, precio);
     }
 
+    @PostMapping("/notificar/comprador/{compradorId}/publicacion/{publicacionId}/pausa")
+    public TransactionCoordinatorService.Result onPublicacionPausada(@PathVariable("compradorId") Long compradorId,
+                                                                     @PathVariable("publicacionId") Long publicacionId) {
+        return transactionalService.onPublicacionPausada(compradorId, publicacionId);
+    }
+
     @PutMapping("/comprar/{compradorId}/publicacion/{publicacionId}")
     public Long onComprarEvent(@PathVariable("compradorId") Long compradorId,
-                                 @PathVariable("publicacionId") Long publicacionId) {
+                               @PathVariable("publicacionId") Long publicacionId) {
         return transactionalService.onComprarEvent(compradorId, publicacionId);
     }
 
-    @PostMapping("/notificar/comprador/{compradorId}/publicacion/{publicacionId}/pausa")
-    public TransactionCoordinatorService.Result onPublicacionPausada(@PathVariable("compradorId") Long compradorId, @PathVariable("publicacionId") Long publicacionId) {
-        return transactionalService.onPublicacionPausada(compradorId, publicacionId);
-
-    }
 
     @PostMapping("/notificar/publicacion/{publicacionId}")
     public TransactionCoordinatorService.Result onPublicacionCreada(@PathVariable("publicacionId") Long publicacionId) {
