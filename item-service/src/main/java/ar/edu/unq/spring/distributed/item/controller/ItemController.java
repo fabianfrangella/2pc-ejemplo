@@ -1,9 +1,8 @@
 package ar.edu.unq.spring.distributed.item.controller;
 
 
-import ar.edu.unq.spring.distributed.item.persistencia.ItemJPADTO;
+import ar.edu.unq.spring.distributed.item.modelo.ItemJPADTO;
 import ar.edu.unq.spring.distributed.item.service.ItemService;
-import ar.edu.unq.unidad3.dto.ItemDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

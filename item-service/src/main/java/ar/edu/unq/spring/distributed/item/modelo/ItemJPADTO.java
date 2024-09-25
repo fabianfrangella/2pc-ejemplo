@@ -1,4 +1,4 @@
-package ar.edu.unq.spring.distributed.item.persistencia;
+package ar.edu.unq.spring.distributed.item.modelo;
 
 import jakarta.persistence.*;
 import lombok.*;

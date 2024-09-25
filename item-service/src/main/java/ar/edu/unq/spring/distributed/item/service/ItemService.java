@@ -1,7 +1,7 @@
 package ar.edu.unq.spring.distributed.item.service;
 
 
-import ar.edu.unq.spring.distributed.item.persistencia.ItemJPADTO;
+import ar.edu.unq.spring.distributed.item.modelo.ItemJPADTO;
 import ar.edu.unq.spring.distributed.item.repository.ItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
