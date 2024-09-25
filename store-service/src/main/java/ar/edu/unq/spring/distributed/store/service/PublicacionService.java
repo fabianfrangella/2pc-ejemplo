@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -41,4 +42,7 @@ public class PublicacionService {
         return publicacionRepository.findById(publicacionId).orElseThrow(() -> new RuntimeException("Publicacion not found"));
     }
 
+    public List<PublicacionJPADTO> findActivas() {
+        return publicacionRepository.findByEstado(PublicacionJPADTO.Estado.ACTIVA);
+    }
 }

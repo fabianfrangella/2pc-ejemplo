@@ -6,6 +6,8 @@ import ar.edu.unq.spring.distributed.item.service.ItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/item")
 @AllArgsConstructor
@@ -26,5 +28,10 @@ public class ItemController {
     @PostMapping
     public ItemJPADTO crearItem(@RequestBody ItemJPADTO item) {
         return itemService.crear(item);
+    }
+
+    @GetMapping("/owner/{ownerId}")
+    public List<ItemJPADTO> findByOwnerId(@PathVariable("ownerId") Long ownerId) {
+        return itemService.findByOwnerId(ownerId);
     }
 }

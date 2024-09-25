@@ -6,6 +6,8 @@ import ar.edu.unq.spring.distributed.item.repository.ItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ItemService {
@@ -26,5 +28,9 @@ public class ItemService {
 
     public ItemJPADTO crear(ItemJPADTO item) {
         return itemRepository.save(item);
+    }
+
+    public List<ItemJPADTO> findByOwnerId(Long ownerId) {
+        return itemRepository.findByOwnerId(ownerId);
     }
 }

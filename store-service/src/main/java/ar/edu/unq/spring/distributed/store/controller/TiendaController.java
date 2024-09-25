@@ -6,6 +6,8 @@ import ar.edu.unq.spring.distributed.store.service.PublicacionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tienda")
 @AllArgsConstructor
@@ -25,5 +27,10 @@ public class TiendaController {
     @GetMapping("/publicacion/{publicacionId}")
     public PublicacionJPADTO findById(@PathVariable("publicacionId") Long publicacionId) {
         return publicacionService.findById(publicacionId);
+    }
+
+    @GetMapping("/activas")
+    public List<PublicacionJPADTO> findActivas() {
+        return publicacionService.findActivas();
     }
 }
