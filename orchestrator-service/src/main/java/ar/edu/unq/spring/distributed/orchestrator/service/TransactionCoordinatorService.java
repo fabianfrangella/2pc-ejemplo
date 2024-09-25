@@ -42,11 +42,6 @@ public class TransactionCoordinatorService {
             var publicacion = storeService.findById(publicacionId).block();
             var item = itemService.cambiarOwner(publicacion.getItemId(), compradorId).block();
 
-            if (compradorId.equals(publicacion.getVendedorId())){
-                logger.info("Compra de la publicacion {} fallo porque el vendedor es el mismo que el comprador", publicacionId);
-                return Result.FAIL;
-            }
-
             if (publicacion.getEstado() == PublicacionDTO.Estado.INACTIVA) {
                 logger.info("Compra de la publicacion {} fallo porque la publicacion esta inactiva", publicacionId);
                 return Result.FAIL;
