@@ -29,6 +29,7 @@ public class PublicacionService {
     public void pausarPublicacion(Long publicacionId, Long compradorId) {
         var publicacion = publicacionRepository.findById(publicacionId).orElseThrow(() -> new RuntimeException("Publicacion not found"));
         publicacion.setEstado(PublicacionJPADTO.Estado.INACTIVA);
+        publicacionRepository.save(publicacion);
         coordinatorService.notificarPublicacionPausada(compradorId, publicacionId).doOnSuccess((result) -> {
             if (result == CoordinatorService.Result.FAIL) {
                 throw new RuntimeException("Rollback pausa");
