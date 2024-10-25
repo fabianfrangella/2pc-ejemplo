@@ -1,7 +1,6 @@
 package ar.edu.unq.spring.distributed.orchestrator.service;
 
 import ar.edu.unq.unidad3.dto.PublicacionDTO;
-import ar.edu.unq.unidad3.modelo.Publicacion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @AllArgsConstructor

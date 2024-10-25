@@ -26,8 +26,14 @@ public class TransactionCoordinatorService {
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionCoordinatorService.class);
 
-    public Long onComprarEvent(Long compradorId, Long publicacionId) {
+    public Long onComprar(Long compradorId, Long publicacionId) {
         var publicacion = storeService.findById(publicacionId).block();
+
+        if (publicacion.getEstado() == PublicacionDTO.Estado.INACTIVA) {
+            logger.info("Compra de la publicacion {} fallo porque la publicacion esta inactiva", publicacionId);
+            throw new RuntimeException("Compra de la publicacion {} fallo porque la publicacion esta inactiva");
+        }
+
         if (compradorId.equals(publicacion.getVendedorId())) {
             logger.info("Compra de la publicacion {} fallo porque el vendedor es el mismo que el comprador", publicacionId);
             throw new RuntimeException("El comprador no puede ser el mismo que el vendedor");
@@ -41,19 +47,14 @@ public class TransactionCoordinatorService {
         try {
             var publicacion = storeService.findById(publicacionId).block();
             itemService.cambiarOwner(publicacion.getItemId(), compradorId).block();
-
-            if (publicacion.getEstado() == PublicacionDTO.Estado.INACTIVA) {
-                logger.info("Compra de la publicacion {} fallo porque la publicacion esta inactiva", publicacionId);
-                return Result.FAIL;
-            }
-
             return Result.SUCCESS;
         } catch(Exception e) {
+            logger.error("Falló la compra, causa: {}", e.getMessage());
             return Result.FAIL;
         }
     }
 
-    public Publicacion onPublicarEvent(Long vendedorId, Long itemId, BigDecimal precio) throws JsonProcessingException {
+    public Publicacion onPublicar(Long vendedorId, Long itemId, BigDecimal precio) throws JsonProcessingException {
         var item = itemService.findById(itemId).doOnSuccess((itemDTO) -> {
             if (!itemDTO.getOwnerId().equals(vendedorId)) {
                 throw new RuntimeException("El Item debe pertenecer al vendedor");
@@ -70,10 +71,9 @@ public class TransactionCoordinatorService {
                 .build();
 
         var publicacion = storeService.publicar(publicacionBody).block();
+
         var personajeModel = vendedor.toModel();
-
         var itemModel = item.toModel(personajeModel);
-
         return publicacion.toModel(personajeModel, itemModel);
     }
 

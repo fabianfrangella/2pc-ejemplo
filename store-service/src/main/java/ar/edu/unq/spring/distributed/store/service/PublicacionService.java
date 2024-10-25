@@ -35,7 +35,8 @@ public class PublicacionService {
             if (result == CoordinatorService.Result.FAIL) {
                 throw new RuntimeException("Rollback pausa");
             }
-        }).block();
+        }).doOnError(error -> { throw new RuntimeException("Rollback pausa, causa: " + error.getMessage()); })
+                .block();
     }
 
     public PublicacionJPADTO findById(Long publicacionId) {
